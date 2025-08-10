@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:53:58 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/10 18:45:08 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/10 19:21:01 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char    *copy_token(char *str, int index, int len, int number_word)
     cpy.i = 0;
     cpy.j = 0;
     s = malloc((len + 1) * sizeof(char));
-    if(!str)
+    if(!s)
         return (NULL);
     cpy.start = index - (len - 1);
     cpy.end = index;
@@ -67,10 +67,11 @@ char **make_split(int *index, int *len, char *str, int n_word)
         arr[count.j] = copy_token(str, index[count.j], len[count.j], n_word);
         count.j++;
     }
+    arr[count.j] = NULL;
     return (arr);
 }
 
-/* int ft_split_modified(char *str)
+char **ft_split_modified(char *str)
 {
     int *index;
     int number_word;
@@ -81,5 +82,7 @@ char **make_split(int *index, int *len, char *str, int n_word)
     find_index(number_word, str, &index);
     count_len_word(number_word, str, index, &len_word);
     arr = make_split(index, len_word, str, number_word);
-
-} */
+    free(index);
+    free(len_word);
+    return(arr);
+}
