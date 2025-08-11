@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:28:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/10 20:14:29 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/11 21:15:31 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,6 @@ char		*copy_token(char *str, int index, int len);
 char		**make_split(int *index, int *len, char *str, int n_word);
 void		free_all_arr(char **arr);
 char		**ft_split_modified(char *str);
+char    *found_path(char **envp);
+int is_executable_file(char *cmd, char **envp);
 #endif
