@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:09:52 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/11 21:13:57 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/11 21:20:17 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	main(int argc, char **argv, char **envp)
 	char	**arr;
 	int		i;
 
-	(void)argc;
+	if(argc < 2)
+		return (0);
 	arr = ft_split_modified(argv[1]);
 	if (!arr)
 		return (-1);
