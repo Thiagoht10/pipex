@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:09:52 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/12 05:14:04 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/12 20:23:13 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,11 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	**arr;
-	char	*path;
-	int		i;
-
-	if (argc < 2)
-		return (0);
-	arr = ft_split_modified(argv[1]);
-	if (!arr)
-		return (-1);
-	i = 0;
-	while (arr[i])
+	if (argc != 5)
 	{
-		printf("\ntoken(%d): %s\n", i, arr[i]);
-		i++;
+		write(2, "Error: You need at least four arguments.\n", 42);
+		return (0);
 	}
-	path = resolve_path_exec(arr[0], envp);
-	printf("\nPATH_found: %s\n", found_path(envp));
-	printf("\nPATH executable: %s\n", path);
-	free(path);
-	free_all_arr(arr);
+	run_pipe(argc, argv, envp);	
 	return (0);
 }
