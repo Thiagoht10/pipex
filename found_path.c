@@ -6,67 +6,80 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 17:45:34 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/11 20:49:24 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/12 05:13:25 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char    *found_path(char **envp)
+char	*found_path(char **envp)
 {
-    t_count fp;
-    int result;
+	t_count	fp;
+	int		result;
 
-    fp.i = 0;
-    fp.s = "PATH=";
-    if(!envp)
-        return (NULL);
-    while(envp[fp.i])
-    {
-        result = ft_strncmp(fp.s, envp[fp.i], 5);
-        if(result == 0)
-            return (envp[fp.i] + 5);
-        fp.i++;
-    }
-    return (NULL);
+	fp.i = 0;
+	fp.s = "PATH=";
+	if (!envp)
+		return (NULL);
+	while (envp[fp.i])
+	{
+		result = ft_strncmp(fp.s, envp[fp.i], 5);
+		if (result == 0)
+			return (envp[fp.i] + 5);
+		fp.i++;
+	}
+	return (NULL);
 }
 
-char    *join3(char *dir, char *bar, char *cmd)
+char	*join3(char *dir, char *bar, char *cmd)
 {
-    char    *temp;
-    char    *res;
+	char	*temp;
+	char	*res;
 
-    temp = ft_strjoin(dir, bar);
-    if(!temp)
-        return (NULL);
-    res = ft_strjoin(temp, cmd);
-    free(temp);
-    return (res);
+	temp = ft_strjoin(dir, bar);
+	if (!temp)
+		return (NULL);
+	res = ft_strjoin(temp, cmd);
+	free(temp);
+	return (res);
 }
 
-int is_executable_file(char *cmd, char **envp)
+char	*get_path_executable(char *cmd, char **envp)
 {
-    char    **dirs;
-    char    *result;
-    t_count exec;
+	char	**dirs;
+	char	*result;
+	t_count	exec;
 
-    exec.i = 0;
-    exec.s = found_path(envp);
-    if (!exec.s)
-        return(0);
-    dirs = ft_split(exec.s, ':');
-    if(!dirs || !dirs[0])
-        return (-1);
-    while(dirs[exec.i])
-    {
-        result = join3(dirs[exec.i], "/", cmd);
-        if(!result)
-            return (free_all_arr(dirs), -1);
-        if (access(result, X_OK) == 0)
-            return (free_all_arr(dirs), free(result), 1);
-        exec.i++;
-        free(result);
-    }
-    free_all_arr(dirs);
-    return (0);
+	exec.i = 0;
+	exec.s = found_path(envp);
+	if (!exec.s)
+		return (NULL);
+	dirs = ft_split(exec.s, ':');
+	if (!dirs || !*dirs)
+		return (NULL);
+	while (dirs[exec.i])
+	{
+		result = join3(dirs[exec.i], "/", cmd);
+		if (!result)
+			return (free_all_arr(dirs), NULL);
+		if (access(result, X_OK) == 0)
+			return (free_all_arr(dirs), result);
+		exec.i++;
+		free(result);
+	}
+	free_all_arr(dirs);
+	return (NULL);
+}
+
+char	*resolve_path_exec(char *cmd, char **envp)
+{
+	if (!cmd || !envp || !*envp)
+		return (NULL);
+	if (ft_strchr(cmd, '/'))
+	{
+		if (access(cmd, X_OK) == 0)
+			return (ft_strdup(cmd));
+		return (NULL);
+	}
+	return (get_path_executable(cmd, envp));
 }
