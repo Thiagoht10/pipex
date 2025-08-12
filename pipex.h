@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:28:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/12 20:09:44 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/13 00:04:38 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 # define PIPEX_H
 
 # include "libft/libft.h"
-# include <sys/wait.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <string.h>
+# include <errno.h>
 # include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 typedef struct s_count
 {
@@ -41,12 +42,14 @@ char		**ft_split_modified(char *str);
 char		*found_path(char **envp);
 char		*get_path_executable(char *cmd, char **envp);
 char		*resolve_path_exec(char *cmd, char **envp);
-int    safe_open_read(const char *path);
-int     safe_open_write(const char *path);
-void    safe_pipe(int fd[2]);
-pid_t	safe_fork(void);
-void	die(const char *ctx, int ext);
-void    run_pipe(int argc, char **argv, char **envp);
-void    process_child1(char *argv_cmd, char **envp, int file_in, int *fd);
-void    process_child2(char *argv_cmd, char **envp, int file_out, int *fd);
+int			safe_open_read(const char *path);
+int			safe_open_write(const char *path);
+void		safe_pipe(int fd[2]);
+pid_t		safe_fork(void);
+void		die(const char *ctx, int ext);
+void		run_pipe(int argc, char **argv, char **envp);
+void		process_child1(char *argv_cmd, char **envp, int file_in, int *fd);
+void		process_child2(char *argv_cmd, char **envp, int file_out, int *fd);
+int			ft_isdir(char *path);
+void		error_path(char **cmd);
 #endif
