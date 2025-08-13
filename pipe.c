@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/13 21:50:04 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/13 22:55:58 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_file	*creat_struct(void)
 {
 	t_file *stack;
 
-	stack = malloc(sizeof(t_list));
+	stack = malloc(sizeof(t_file));
 	if(!stack)
 		return (NULL);
 	return (stack);
@@ -30,6 +30,10 @@ void	run_pipe(char **argv, char **envp)
 	t_file	*fl;
 
 	fl = creat_struct();
+	if (!fl)
+		free(fl);
+	fl->file_in = safe_open_read(argv[1]);
+	fl->file_out = safe_open_write(argv[4]);
 	safe_pipe(fd);
 	pid1 = safe_fork();
 	if (pid1 == 0)
@@ -43,6 +47,7 @@ void	run_pipe(char **argv, char **envp)
 	close(fd[1]);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
+	free(fl);
 }
 
 void	process_child1(char *argv_cmd, char **envp, t_file *fl, int *fd)
@@ -50,7 +55,6 @@ void	process_child1(char *argv_cmd, char **envp, t_file *fl, int *fd)
 	char	**cmd;
 	char	*path;
 
-	fl->file_in = safe_open_read(argv_cmd);
 	cmd = ft_split_modified(argv_cmd);
 	if (!cmd || !*cmd)
 		die("parse_cmd1", 127);
@@ -64,10 +68,12 @@ void	process_child1(char *argv_cmd, char **envp, t_file *fl, int *fd)
 	close(fd[0]);
 	close(fd[1]);
 	close(fl->file_in);
+	close(fl->file_out);
 	execve(path, cmd, envp);
 	perror(cmd[0]);
 	free_all_arr(cmd);
 	free(path);
+	free(fl);
 	exit(127);
 }
 
@@ -76,7 +82,6 @@ void	process_child2(char *argv_cmd, char **envp, t_file *fl, int *fd)
 	char	**cmd;
 	char	*path;
 
-	fl->file_out = safe_open_write(argv_cmd);
 	cmd = ft_split_modified(argv_cmd);
 	if (!cmd || !*cmd)
 		die("parse_cmd2", 127);
@@ -89,10 +94,12 @@ void	process_child2(char *argv_cmd, char **envp, t_file *fl, int *fd)
 		die("file_out", 1);
 	close(fd[0]);
 	close(fd[1]);
+	close(fl->file_in);
 	close(fl->file_out);
 	execve(path, cmd, envp);
 	perror(cmd[0]);
 	free_all_arr(cmd);
 	free(path);
+	free(fl);
 	exit(127);
 }
