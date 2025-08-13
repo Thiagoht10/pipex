@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/13 00:07:11 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/13 04:38:49 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	process_child2(char *argv_cmd, char **envp, int file_out, int *fd)
 
 	cmd = ft_split_modified(argv_cmd);
 	if (!cmd || !*cmd)
-		die("parse_cmd1", 127);
+		die("parse_cmd2", 127);
 	path = resolve_path_exec(cmd[0], envp);
 	if (!path)
 		error_path(cmd);
