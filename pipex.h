@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:28:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/13 00:04:38 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/13 21:48:27 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@ typedef struct s_count
 	char	*s;
 }			t_count;
 
+typedef struct s_file
+{
+	int	file_in;
+	int	file_out;
+}		t_file;
+
+
 int			count_words(char *str);
 void		find_index(int number_word, char *str, int **index);
 int			skip_token_chars(char *str, int i);
@@ -47,9 +54,9 @@ int			safe_open_write(const char *path);
 void		safe_pipe(int fd[2]);
 pid_t		safe_fork(void);
 void		die(const char *ctx, int ext);
-void		run_pipe(int argc, char **argv, char **envp);
-void		process_child1(char *argv_cmd, char **envp, int file_in, int *fd);
-void		process_child2(char *argv_cmd, char **envp, int file_out, int *fd);
+void		run_pipe(char **argv, char **envp);
+void	process_child1(char *argv_cmd, char **envp, t_file *fl, int *fd);
+void	process_child2(char *argv_cmd, char **envp, t_file *fl, int *fd);
 int			ft_isdir(char *path);
 void		error_path(char **cmd);
 #endif
