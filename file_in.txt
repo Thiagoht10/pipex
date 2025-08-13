@@ -4,3 +4,4 @@ morago
 abacaxi
 coco
 melancia
+abacaxi
