@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:27:48 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/13 05:17:07 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/13 05:38:15 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	find_index(int number_word, char *str, int **index)
 	i = 0;
 	j = 0;
 	*index = (int *)malloc((number_word + 1) * sizeof(int));
-	if (!index)
+	if (!index || !*index)
 		return ;
 	while (str[i] == 32)
 		i++;
@@ -104,7 +104,7 @@ void	count_len_word(int number_word, char *str, int *index, int **len)
 	count.i = 0;
 	count.j = 0;
 	*len = (int *)malloc((number_word + 1) * sizeof(int));
-	if (!len)
+	if (!len || !*len)
 		return ;
 	while (str[count.i] == 32)
 		count.i++;
