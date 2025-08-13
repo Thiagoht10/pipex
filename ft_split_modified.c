@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:53:58 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/13 05:20:03 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/13 05:49:28 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ char	**make_split(int *index, int *len, char *str, int n_word)
 	while (count.j < n_word)
 	{
 		arr[count.j] = copy_token(str, index[count.j], len[count.j]);
+		if(!arr[count.j])
+		{
+			free_all_arr(arr);
+			return (NULL);
+		}
 		count.j++;
 	}
 	arr[count.j] = NULL;
