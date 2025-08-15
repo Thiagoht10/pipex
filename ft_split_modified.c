@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:53:58 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/13 06:05:45 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/16 00:53:55 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,32 +25,52 @@ void	free_all_arr(char **arr)
 	}
 	free(arr);
 }
+int	count_words(char *str)
+{
+	int		i;
+	int		count;
+	char	c;
+
+	i = 0;
+	count = 0;
+	while (str[i] != '\0')
+	{
+		if ((i == 0 || str[i - 1] == 32) && str[i] != 32)
+		{
+			if (str[i] == 34 || str[i] == 39)
+			{
+				c = str[i];
+				i = skip_quotes(str, c, i);
+			}
+			count++;
+		}
+		i++;
+	}
+	return (count);
+}
 
 char	*copy_token(char *str, int index, int len)
 {
-	char	*s;
-	t_count	cpy;
+	char	*token;
+	int		end_exclusive;
+	int		token_length;
+	int		start;
+	int		i;
 
-	cpy.i = 0;
-	cpy.j = 0;
-	s = malloc((len + 1) * sizeof(char));
-	if (!s)
+	end_exclusive = index;  
+	token_length = len;
+	token = (char *)malloc((token_length + 1) * sizeof(char));
+	if (!token)
 		return (NULL);
-	cpy.start = index - (len - 1);
-	cpy.end = index;
-	if ((str[cpy.end] == 34 || str[cpy.end] == 39))
+	start = end_exclusive - token_length;
+	i = 0;
+	while (i < token_length)
 	{
-		cpy.end--;
-		cpy.start = index - len;
+		token[i] = str[start + i];
+		i++;
 	}
-	while (cpy.start <= cpy.end)
-	{
-		s[cpy.j] = str[cpy.start];
-		cpy.start++;
-		cpy.j++;
-	}
-	s[cpy.j] = '\0';
-	return (s);
+	token[i] = '\0';
+	return (token);
 }
 
 char	**make_split(int *index, int *len, char *str, int n_word)
@@ -83,6 +103,8 @@ char	**ft_split_modified(char *str)
 	int		*len_word;
 	char	**arr;
 
+	index = NULL;
+	len_word = NULL;
 	number_word = count_words(str);
 	find_index(number_word, str, &index);
 	if(!index)

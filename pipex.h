@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:28:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/13 21:48:27 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/15 23:16:18 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_file
 	int	file_out;
 }		t_file;
 
-
+int	skip_quotes(char *str, char c, int index);
 int			count_words(char *str);
 void		find_index(int number_word, char *str, int **index);
 int			skip_token_chars(char *str, int i);

@@ -6,48 +6,24 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:27:48 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/13 05:38:15 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/16 00:52:19 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	skip_quotes(char *str, char c, int index)
+int	skip_quotes(char *str, char c, int index)
 {
 	int	i;
 
 	i = index + 1;
 	while (str[i] != '\0')
 	{
-		if (str[i] == c && (str[i + 1] == 32 || str[i + 1] == '\0'))
+		if (str[i] == c)
 			return (i);
 		i++;
 	}
 	return (index);
-}
-
-int	count_words(char *str)
-{
-	int		i;
-	int		count;
-	char	c;
-
-	i = 0;
-	count = 0;
-	while (str[i] != '\0')
-	{
-		if ((i == 0 || str[i - 1] == 32) && str[i] != 32)
-		{
-			if (str[i] == 34 || str[i] == 39)
-			{
-				c = str[i];
-				i = skip_quotes(str, c, i);
-			}
-			count++;
-		}
-		i++;
-	}
-	return (count);
 }
 
 void	find_index(int number_word, char *str, int **index)
@@ -66,7 +42,7 @@ void	find_index(int number_word, char *str, int **index)
 	while (str[i] != '\0' && j < number_word)
 	{
 		k = skip_token_chars(str, i);
-		(*index)[j++] = k - 1;
+		(*index)[j++] = k;
 		i = k;
 		while (str[i] == 32)
 			i++;
@@ -96,32 +72,52 @@ int	skip_token_chars(char *str, int i)
 	}
 	return (i);
 }
+static void	update_index(char *str, int start, int *end, int *len)
+{
+	int	end_inclusive;
+
+	end_inclusive = *end - 1;
+	if ((str[start] == 34 || str[start] == 39)
+		&& end_inclusive > start && str[end_inclusive] == str[start])
+	{
+		if (end_inclusive > start + 1)
+			*len = end_inclusive - start - 1;
+		else
+			*len = 0;
+		*end = end_inclusive;
+	}
+	else
+	{
+		if (*end > start)
+			*len = *end - start;
+		else
+			*len = 0;
+	}
+}
 
 void	count_len_word(int number_word, char *str, int *index, int **len)
 {
-	t_count	count;
+	int	i;
+	int	j;
+	int	start;
+	int	end_exclusive;
 
-	count.i = 0;
-	count.j = 0;
+	i = 0;
+	j = 0;
 	*len = (int *)malloc((number_word + 1) * sizeof(int));
-	if (!len || !*len)
+	if (!*len)
 		return ;
-	while (str[count.i] == 32)
-		count.i++;
-	while (count.j < number_word)
+	while (str[i] && str[i] == 32)
+		i++;
+	while (j < number_word)
 	{
-		count.start = count.i;
-		count.end = index[count.j];
-		if ((str[count.start] == 34 || str[count.start] == 39)
-			&& (str[count.end] == str[count.start]))
-		{
-			count.end--;
-			count.start++;
-		}
-		(*len)[count.j] = count.end - count.start + 1;
-		count.i = index[count.j] + 1;
-		while (str[count.i] != '\0' && str[count.i] == 32)
-			count.i++;
-		count.j++;
+		start = i;
+		end_exclusive = index[j];
+		update_index(str, start, &index[j], &(*len)[j]);
+		i = end_exclusive;
+		while (str[i] && str[i] == 32)
+			i++;
+		j++;
 	}
 }
+
