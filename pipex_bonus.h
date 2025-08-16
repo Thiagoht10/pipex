@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:28:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/16 05:57:03 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/16 19:03:55 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,5 @@ int			calc_len_and_adjust(char *str, int *index_j, int start,
 void init_fds(t_fd *f);
 void init_count(t_count *p, int argc);
 void parent_step(t_fd *f);
+int wait_for_children(pid_t last_pid);
 #endif

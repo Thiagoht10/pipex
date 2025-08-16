@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/16 05:56:07 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/16 19:03:57 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,24 @@ void parent_step(t_fd *f)
     if (f->fd[0] != -1)
         close(f->fd[0]);
     f->fd[0] = f->temp_fd[0];
+}
+
+int wait_for_children(pid_t last_pid)
+{
+    int status;
+    int exit_code = 0;
+    pid_t wpid;
+
+    while ((wpid = waitpid(-1, &status, 0)) > 0)
+    {
+        if (wpid == last_pid)
+        {
+            if (WIFEXITED(status))
+                exit_code = WEXITSTATUS(status);
+            else if (WIFSIGNALED(status))
+                exit_code = 128 + WTERMSIG(status);
+        }
+    }
+    return exit_code;
 }
 

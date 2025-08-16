@@ -5,5 +5,5 @@ abacaxi
 coco
 melancia
 abacaxi
-mar azul
+mar azul abacaxi
 ceu azul

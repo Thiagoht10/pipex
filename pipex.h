@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:28:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/16 05:39:01 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/16 19:21:12 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_file
 {
 	int	file_in;
 	int	file_out;
+	pid_t last_pid;
 }		t_file;
 
 
@@ -60,4 +61,5 @@ void	process_child1(char *argv_cmd, char **envp, t_file *fl, int *fd);
 void	process_child2(char *argv_cmd, char **envp, t_file *fl, int *fd);
 int			ft_isdir(char *path);
 void		error_path(char **cmd);
+int wait_for_children(pid_t last_pid);
 #endif

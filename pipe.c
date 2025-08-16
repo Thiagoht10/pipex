@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/13 22:55:58 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/16 19:44:30 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@ void	run_pipe(char **argv, char **envp)
 	pid2 = safe_fork();
 	if (pid2 == 0)
 		process_child2(argv[3], envp, fl, fd);
+	fl->last_pid = pid2;
 	close(fl->file_in);
 	close(fl->file_out);
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	exit(wait_for_children(fl->last_pid));
 	free(fl);
 }
 
@@ -102,4 +103,24 @@ void	process_child2(char *argv_cmd, char **envp, t_file *fl, int *fd)
 	free(path);
 	free(fl);
 	exit(127);
+}
+
+int wait_for_children(pid_t last_pid)
+{
+    int status;
+    int exit_code;
+    pid_t wpid;
+
+	exit_code = 0;
+    while ((wpid = waitpid(-1, &status, 0)) > 0)
+    {
+        if (wpid == last_pid)
+        {
+            if (WIFEXITED(status))
+                exit_code = WEXITSTATUS(status);
+            else if (WIFSIGNALED(status))
+                exit_code = 128 + WTERMSIG(status);
+        }
+    }
+    return exit_code;
 }

@@ -6,39 +6,39 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/16 06:04:22 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/16 19:13:06 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void    run_pipe(int argc, char **argv, char **envp)
+void	run_pipe(int argc, char **argv, char **envp)
 {
-    t_fd    f;
-    t_count p;
+	t_fd	f;
+	t_count	p;
+	pid_t	last_pid;
 
-    init_fds(&f);
-    init_count(&p, argc);
-    while (p.i < p.n)
-    {
-        safe_pipe(f.temp_fd);
-        f.pid = safe_fork();
-        if (f.pid == 0 && p.i == 0)
-            process_child_start(argv, envp, f.temp_fd);
-        else if (f.pid == 0)
-            process_child_middle(argv[2 + p.i], envp, f.temp_fd, f.fd);
-        parent_step(&f);
-        p.i++;
-    }
-    f.pid = safe_fork();
-    if (f.pid == 0)
-        process_child_end(argc, argv, envp, f.fd);
-    if (f.fd[0] != -1)
-        close(f.fd[0]);
-    while (wait(NULL) > 0)
-        (void)0;
+	init_fds(&f);
+	init_count(&p, argc);
+	while (p.i < p.n)
+	{
+		safe_pipe(f.temp_fd);
+		f.pid = safe_fork();
+		if (f.pid == 0 && p.i == 0)
+			process_child_start(argv, envp, f.temp_fd);
+		else if (f.pid == 0)
+			process_child_middle(argv[2 + p.i], envp, f.temp_fd, f.fd);
+		parent_step(&f);
+		p.i++;
+	}
+	f.pid = safe_fork();
+	last_pid = f.pid;
+	if (f.pid == 0)
+		process_child_end(argc, argv, envp, f.fd);
+	if (f.fd[0] != -1)
+		close(f.fd[0]);
+	exit(wait_for_children(last_pid));
 }
-
 
 void	process_child_start(char **argv, char **envp, int *temp_fd)
 {
