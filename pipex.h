@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:28:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/16 19:21:12 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/16 19:51:00 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void		safe_pipe(int fd[2]);
 pid_t		safe_fork(void);
 void		die(const char *ctx, int ext);
 void		run_pipe(char **argv, char **envp);
-void	process_child1(char *argv_cmd, char **envp, t_file *fl, int *fd);
-void	process_child2(char *argv_cmd, char **envp, t_file *fl, int *fd);
+void	process_child1(char *argv_cmd, char **envp, int fl_in, int *fd);
+void	process_child2(char *argv_cmd, char **envp, int fl_out, int *fd);
 int			ft_isdir(char *path);
 void		error_path(char **cmd);
 int wait_for_children(pid_t last_pid);
