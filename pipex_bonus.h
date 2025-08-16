@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:28:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/16 05:39:01 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/16 05:57:03 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include "libft/libft.h"
 # include <errno.h>
@@ -26,19 +26,20 @@ typedef struct s_count
 {
 	int		i;
 	int		j;
+	int		n;
 	int		start;
 	int		end;
 	char	*s;
 }			t_count;
 
-typedef struct s_file
+typedef struct s_fd
 {
-	int	file_in;
-	int	file_out;
-}		t_file;
+	int     fd[2];  
+    int     temp_fd[2];
+    pid_t   pid;
+}			t_fd;
 
-
-int	skip_quotes(char *str, char c, int index);
+int			skip_quotes(char *str, char c, int index);
 int			count_words(char *str);
 void		find_index(int number_word, char *str, int **index);
 int			skip_token_chars(char *str, int i);
@@ -55,9 +56,15 @@ int			safe_open_write(const char *path);
 void		safe_pipe(int fd[2]);
 pid_t		safe_fork(void);
 void		die(const char *ctx, int ext);
-void		run_pipe(char **argv, char **envp);
-void	process_child1(char *argv_cmd, char **envp, t_file *fl, int *fd);
-void	process_child2(char *argv_cmd, char **envp, t_file *fl, int *fd);
+void		run_pipe(int argc, char **argv, char **envp);
+void		process_child_start(char **argv, char **envp, int *fd);
+void	process_child_end(int argc, char **argv, char **envp, int *fd);
+void	process_child_middle(char *arg, char **envp, int *temp_fd, int *fd);
 int			ft_isdir(char *path);
 void		error_path(char **cmd);
+int			calc_len_and_adjust(char *str, int *index_j, int start,
+				int end_exclusive);
+void init_fds(t_fd *f);
+void init_count(t_count *p, int argc);
+void parent_step(t_fd *f);
 #endif

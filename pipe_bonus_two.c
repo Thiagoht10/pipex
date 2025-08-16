@@ -1,21 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipe_bonus_two.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/09 15:09:52 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/16 06:05:04 by thde-sou         ###   ########.fr       */
+/*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
+/*   Updated: 2025/08/16 05:56:07 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-int	main(int argc, char **argv, char **envp)
+void init_fds(t_fd *f)
 {
-	if (argc != 5)
-		exit(1);
-	run_pipe(argv, envp);
-	return (0);
+    f->fd[0] = -1;
+    f->fd[1] = -1;
+    f->temp_fd[0] = -1;
+    f->temp_fd[1] = -1;
 }
+
+void init_count(t_count *p, int argc)
+{
+    p->i = 0;
+    p->n = argc - 4;
+}
+
+void parent_step(t_fd *f)
+{
+    close(f->temp_fd[1]);
+    if (f->fd[0] != -1)
+        close(f->fd[0]);
+    f->fd[0] = f->temp_fd[0];
+}
+
