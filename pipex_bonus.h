@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:28:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/16 19:03:55 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/17 00:57:58 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ void init_fds(t_fd *f);
 void init_count(t_count *p, int argc);
 void parent_step(t_fd *f);
 int wait_for_children(pid_t last_pid);
+void	error_cmd(char **cmd);
 #endif

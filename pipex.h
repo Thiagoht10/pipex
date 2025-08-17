@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:28:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/16 19:51:00 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/17 01:13:42 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,5 @@ void	process_child2(char *argv_cmd, char **envp, int fl_out, int *fd);
 int			ft_isdir(char *path);
 void		error_path(char **cmd);
 int wait_for_children(pid_t last_pid);
+void	error_cmd(char **cmd);
 #endif

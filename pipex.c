@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:09:52 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/16 06:05:04 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/16 22:41:04 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	if (argc != 5)
-		exit(1);
+		exit(EXIT_FAILURE);
 	run_pipe(argv, envp);
 	return (0);
 }

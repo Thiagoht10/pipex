@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/16 19:13:06 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/17 01:07:43 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	process_child_start(char **argv, char **envp, int *temp_fd)
 
 	cmd = ft_split_modified(argv[2]);
 	if (!cmd || !*cmd)
-		die("parse_cmd1", 127);
+		error_cmd(cmd);
 	path = resolve_path_exec(cmd[0], envp);
 	if (!path)
 		error_path(cmd);
@@ -74,7 +74,7 @@ void	process_child_middle(char *arg, char **envp, int *temp_fd, int *fd)
 
 	cmd = ft_split_modified(arg);
 	if (!cmd || !*cmd)
-		die("parse_cmd_middle", 127);
+		error_cmd(cmd);
 	path = resolve_path_exec(cmd[0], envp);
 	if (!path)
 		error_path(cmd);
@@ -100,7 +100,7 @@ void	process_child_end(int argc, char **argv, char **envp, int *fd)
 
 	cmd = ft_split_modified(argv[argc - 2]);
 	if (!cmd || !*cmd)
-		die("parse_cmd2", 127);
+		error_cmd(cmd);
 	path = resolve_path_exec(cmd[0], envp);
 	if (!path)
 		error_path(cmd);

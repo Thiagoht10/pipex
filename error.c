@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 18:55:11 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/13 00:20:04 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/17 00:51:57 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	safe_open_read(const char *path)
 	if (fd < 0)
 	{
 		perror(path);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	return (fd);
 }
@@ -62,6 +62,8 @@ pid_t	safe_fork(void)
 
 void	die(const char *ctx, int ext)
 {
+	if(!ctx)
+		exit(EXIT_FAILURE);
 	perror(ctx);
 	exit(ext);
 }
