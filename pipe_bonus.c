@@ -6,13 +6,13 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/17 01:07:43 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/17 19:48:54 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	run_pipe(int argc, char **argv, char **envp)
+void	run_pipe_bonus(int argc, char **argv, char **envp)
 {
 	t_fd	f;
 	t_count	p;
@@ -48,18 +48,19 @@ void	process_child_start(char **argv, char **envp, int *temp_fd)
 
 	cmd = ft_split_modified(argv[2]);
 	if (!cmd || !*cmd)
+	{
+		close_fd(temp_fd[0], temp_fd[1], -1, -1);
 		error_cmd(cmd);
+	}
 	path = resolve_path_exec(cmd[0], envp);
 	if (!path)
+	{
+		close_fd(temp_fd[0], temp_fd[1], -1, -1);
 		error_path(cmd);
+	}
 	file_in = safe_open_read(argv[1]);
-	if (dup2(file_in, STDIN_FILENO) < 0)
-		die("file_in", 1);
-	if (dup2(temp_fd[1], STDOUT_FILENO) < 0)
-		die("pipe_write", 1);
-	close(file_in);
-	close(temp_fd[0]);
-	close(temp_fd[1]);
+	make_dup2(file_in, temp_fd[1], temp_fd[0], -1);
+	close_fd(temp_fd[0], temp_fd[1], file_in, -1);
 	execve(path, cmd, envp);
 	perror(cmd[0]);
 	free_all_arr(cmd);
@@ -74,17 +75,18 @@ void	process_child_middle(char *arg, char **envp, int *temp_fd, int *fd)
 
 	cmd = ft_split_modified(arg);
 	if (!cmd || !*cmd)
+	{
+		close_fd(fd[0], temp_fd[0], temp_fd[1], -1);
 		error_cmd(cmd);
+	}
 	path = resolve_path_exec(cmd[0], envp);
 	if (!path)
+	{
+		close_fd(fd[0], temp_fd[0], temp_fd[1], -1);
 		error_path(cmd);
-	if (dup2(fd[0], STDIN_FILENO) < 0)
-		die("pipe_read", 1);
-	if (dup2(temp_fd[1], STDOUT_FILENO) < 0)
-		die("pipe_write", 1);
-	close(fd[0]);
-	close(temp_fd[0]);
-	close(temp_fd[1]);
+	}
+	make_dup2(fd[0], temp_fd[1], temp_fd[0], -1);
+	close_fd(temp_fd[0], temp_fd[1], fd[0], -1);
 	execve(path, cmd, envp);
 	perror(cmd[0]);
 	free_all_arr(cmd);
@@ -100,17 +102,19 @@ void	process_child_end(int argc, char **argv, char **envp, int *fd)
 
 	cmd = ft_split_modified(argv[argc - 2]);
 	if (!cmd || !*cmd)
+	{
+		close_fd(fd[0], -1, -1, -1);
 		error_cmd(cmd);
+	}
 	path = resolve_path_exec(cmd[0], envp);
 	if (!path)
+	{
+		close_fd(fd[0], -1, -1, -1);
 		error_path(cmd);
+	}
 	file_out = safe_open_write(argv[argc - 1]);
-	if (dup2(fd[0], STDIN_FILENO) < 0)
-		die("pipe_read", 1);
-	if (dup2(file_out, STDOUT_FILENO) < 0)
-		die("file_out", 1);
-	close(fd[0]);
-	close(file_out);
+	make_dup2(fd[0], file_out, -1, -1);
+	close_fd(fd[0], file_out, -1, -1);
 	execve(path, cmd, envp);
 	perror(cmd[0]);
 	free_all_arr(cmd);

@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 17:45:34 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/13 00:03:23 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/18 00:51:37 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ char	*get_path_executable(char *cmd, char **envp)
 char	*resolve_path_exec(char *cmd, char **envp)
 {
 	if (!cmd || !envp || !*envp)
+		return (NULL);
+	if(cmd[0] == '\0')
 		return (NULL);
 	if (ft_strchr(cmd, '/'))
 	{

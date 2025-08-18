@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:28:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/17 01:13:42 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/18 01:25:46 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,7 @@ int			ft_isdir(char *path);
 void		error_path(char **cmd);
 int wait_for_children(pid_t last_pid);
 void	error_cmd(char **cmd);
+void	close_fd(int fd1, int fd2, int fd3, int fd4);
+void    make_dup2(int fd_in, int fd_out, int fd3, int fd4);
+void	aux_error_path(char **cmd);
 #endif

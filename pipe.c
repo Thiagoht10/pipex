@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/17 01:13:50 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/17 20:04:16 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ void	run_pipe(char **argv, char **envp)
 	t_file	fl;
 
 	fl.file_in = safe_open_read(argv[1]);
-	fl.file_out = safe_open_write(argv[4]);
 	safe_pipe(fd);
 	pid1 = safe_fork();
 	if (pid1 == 0)
 		process_child1(argv[2], envp, fl.file_in, fd);
+	close(fl.file_in);
+	fl.file_out = safe_open_write(argv[4]);
 	pid2 = safe_fork();
 	if (pid2 == 0)
 		process_child2(argv[3], envp, fl.file_out, fd);
@@ -43,17 +44,18 @@ void	process_child1(char *argv_cmd, char **envp, int fl_in, int *fd)
 
 	cmd = ft_split_modified(argv_cmd);
 	if (!cmd || !*cmd)
-		die(NULL, 127);
+	{
+		close_fd(fl_in, fd[1], fd[0], -1);
+		exit(127);
+	}
 	path = resolve_path_exec(cmd[0], envp);
 	if (!path)
+	{
+		close_fd(fl_in, fd[1], fd[0], -1);
 		error_path(cmd);
-	if (dup2(fl_in, STDIN_FILENO) < 0)
-		die("file_in", 1);
-	if (dup2(fd[1], STDOUT_FILENO) < 0)
-		die("pipe_write", 1);
-	close(fd[0]);
-	close(fd[1]);
-	close(fl_in);
+	}
+	make_dup2(fl_in, fd[1], fd[0], -1);
+	close_fd(fd[0], fd[1], fl_in, -1);
 	execve(path, cmd, envp);
 	perror(cmd[0]);
 	free_all_arr(cmd);
@@ -68,17 +70,18 @@ void	process_child2(char *argv_cmd, char **envp, int fl_out, int *fd)
 
 	cmd = ft_split_modified(argv_cmd);
 	if (!cmd || !*cmd)
+	{
+		close_fd(fl_out, fd[1], fd[0], -1);
 		error_cmd(cmd);
+	}
 	path = resolve_path_exec(cmd[0], envp);
 	if (!path)
+	{
+		close_fd(fl_out, fd[1], fd[0], -1);
 		error_path(cmd);
-	if (dup2(fd[0], STDIN_FILENO) < 0)
-		die("pipe_read", 1);
-	if (dup2(fl_out, STDOUT_FILENO) < 0)
-		die("file_out", 1);
-	close(fd[0]);
-	close(fd[1]);
-	close(fl_out);
+	}
+	make_dup2(fd[0], fl_out, fd[1], -1);
+	close_fd(fd[0], fd[1], fl_out, -1);
 	execve(path, cmd, envp);
 	perror(cmd[0]);
 	free_all_arr(cmd);
@@ -104,4 +107,18 @@ int wait_for_children(pid_t last_pid)
         }
     }
     return exit_code;
+}
+
+void    make_dup2(int fd_in, int fd_out, int fd3, int fd4)
+{
+    if (dup2(fd_in, STDIN_FILENO) < 0)
+	{
+        close_fd(fd_in, fd_out, fd3, fd4);
+        die("pipe_in", 1);
+    }
+	if (dup2(fd_out, STDOUT_FILENO) < 0)
+	{
+        close_fd(fd_in, fd_out, fd3, fd4);
+        die("pipe_out", 1);
+    }
 }

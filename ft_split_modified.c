@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:53:58 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/16 22:32:42 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/18 01:05:47 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	free_all_arr(char **arr)
 	int	a;
 
 	a = 0;
-	if(!arr || !*arr)
-		return ;
 	while (arr[a])
 	{
 		if (arr[a])

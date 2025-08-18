@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/16 19:03:57 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/17 19:40:30 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void parent_step(t_fd *f)
     if (f->fd[0] != -1)
         close(f->fd[0]);
     f->fd[0] = f->temp_fd[0];
+    f->temp_fd[0] = -1;
+    f->temp_fd[1] = -1;
 }
 
 int wait_for_children(pid_t last_pid)
@@ -51,5 +53,19 @@ int wait_for_children(pid_t last_pid)
         }
     }
     return exit_code;
+}
+
+void    make_dup2(int fd_in, int fd_out, int fd3, int fd4)
+{
+    if (dup2(fd_in, STDIN_FILENO) < 0)
+	{
+        close_fd(fd_in, fd_out, fd3, fd4);
+        die("pipe_in", 1);
+    }
+	if (dup2(fd_out, STDOUT_FILENO) < 0)
+	{
+        close_fd(fd_in, fd_out, fd3, fd4);
+        die("pipe_out", 1);
+    }
 }
 
