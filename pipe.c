@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/18 15:32:45 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/18 19:29:10 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	run_pipe(char **argv, char **envp)
 		process_child1(argv[2], envp, fl.file_in, fd);
 	close(fl.file_in);
 	fl.file_out = safe_open_write(argv[4]);
+	write(2, "aqui\n", 5);
 	pid2 = safe_fork();
 	if (pid2 == 0)
 		process_child2(argv[3], envp, fl.file_out, fd);
