@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/17 20:04:16 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/18 04:41:04 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	process_child1(char *argv_cmd, char **envp, int fl_in, int *fd)
 	if (!cmd || !*cmd)
 	{
 		close_fd(fl_in, fd[1], fd[0], -1);
-		exit(127);
+		error_cmd(cmd);
 	}
 	path = resolve_path_exec(cmd[0], envp);
 	if (!path)
