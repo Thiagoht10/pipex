@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 22:53:25 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/18 01:25:23 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/18 20:51:43 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,18 @@ void	aux_error_path(char **cmd)
 	write(2, "'': command not found\n", 22);
 	free_all_arr(cmd);
 	exit(127);
+}
+
+int	safe_open_read_child(const char *path, int fd1, int fd2)
+{
+	int	fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+	{
+		close_fd(fd1, fd2, -1, -1);
+		perror(path);
+		exit(EXIT_FAILURE);
+	}
+	return (fd);
 }

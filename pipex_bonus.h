@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:28:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/18 04:07:27 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/18 20:52:05 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,5 @@ int			wait_for_children(pid_t last_pid);
 void		error_cmd(char **cmd);
 void		close_fd(int fd1, int fd2, int fd3, int fd4);
 void		make_dup2(int fd_in, int fd_out, int fd3, int fd4);
+int			safe_open_read_child(const char *path, int fd1, int fd2);
 #endif

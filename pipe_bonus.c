@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/18 19:33:10 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/18 20:52:33 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	process_child_start(char **argv, char **envp, int *temp_fd)
 	char	*path;
 	int		file_in;
 
+	file_in = safe_open_read_child(argv[1], temp_fd[0], temp_fd[1]);
 	cmd = ft_split_modified(argv[2]);
 	if (!cmd || !*cmd)
 	{
@@ -58,7 +59,6 @@ void	process_child_start(char **argv, char **envp, int *temp_fd)
 		close_fd(temp_fd[0], temp_fd[1], -1, -1);
 		error_path(cmd);
 	}
-	file_in = safe_open_read(argv[1]);
 	make_dup2(file_in, temp_fd[1], temp_fd[0], -1);
 	close_fd(temp_fd[0], temp_fd[1], file_in, -1);
 	execve(path, cmd, envp);
