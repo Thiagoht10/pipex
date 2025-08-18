@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:53:58 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/18 01:05:47 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:25:56 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	free_all_arr(char **arr)
 	}
 	free(arr);
 }
+
 int	count_words(char *str)
 {
 	int		i;
@@ -57,7 +58,7 @@ char	*copy_token(char *str, int index, int len)
 	int		start;
 	int		i;
 
-	end_exclusive = index;  
+	end_exclusive = index;
 	token_length = len;
 	token = (char *)malloc((token_length + 1) * sizeof(char));
 	if (!token)
@@ -85,7 +86,7 @@ char	**make_split(int *index, int *len, char *str, int n_word)
 	while (count.j < n_word)
 	{
 		arr[count.j] = copy_token(str, index[count.j], len[count.j]);
-		if(!arr[count.j])
+		if (!arr[count.j])
 		{
 			free_all_arr(arr);
 			return (NULL);
@@ -107,13 +108,13 @@ char	**ft_split_modified(char *str)
 	len_word = NULL;
 	number_word = count_words(str);
 	find_index(number_word, str, &index);
-	if(!index)
-		return(free(index), NULL);
+	if (!index)
+		return (free(index), NULL);
 	count_len_word(number_word, str, index, &len_word);
-	if(!len_word)
+	if (!len_word)
 		return (free(len_word), NULL);
 	arr = make_split(index, len_word, str, number_word);
-	if(!arr || !*arr)
+	if (!arr || !*arr)
 	{
 		free_all_arr(arr);
 		free(index);

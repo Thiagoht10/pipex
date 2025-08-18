@@ -62,7 +62,7 @@ pid_t	safe_fork(void)
 
 void	die(const char *ctx, int ext)
 {
-	if(!ctx)
+	if (!ctx)
 		exit(EXIT_FAILURE);
 	perror(ctx);
 	exit(ext);

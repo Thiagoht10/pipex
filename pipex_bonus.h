@@ -34,9 +34,9 @@ typedef struct s_count
 
 typedef struct s_fd
 {
-	int     fd[2];  
-    int     temp_fd[2];
-    pid_t   pid;
+	int		fd[2];
+	int		temp_fd[2];
+	pid_t	pid;
 }			t_fd;
 
 int			skip_quotes(char *str, char c, int index);
@@ -58,17 +58,17 @@ pid_t		safe_fork(void);
 void		die(const char *ctx, int ext);
 void		run_pipe_bonus(int argc, char **argv, char **envp);
 void		process_child_start(char **argv, char **envp, int *fd);
-void	process_child_end(int argc, char **argv, char **envp, int *fd);
-void	process_child_middle(char *arg, char **envp, int *temp_fd, int *fd);
+void		process_child_end(int argc, char **argv, char **envp, int *fd);
+void		process_child_middle(char *arg, char **envp, int *temp_fd, int *fd);
 int			ft_isdir(char *path);
 void		error_path(char **cmd);
 int			calc_len_and_adjust(char *str, int *index_j, int start,
 				int end_exclusive);
-void init_fds(t_fd *f);
-void init_count(t_count *p, int argc);
-void parent_step(t_fd *f);
-int wait_for_children(pid_t last_pid);
-void	error_cmd(char **cmd);
-void	close_fd(int fd1, int fd2, int fd3, int fd4);
-void    make_dup2(int fd_in, int fd_out, int fd3, int fd4);
+void		init_fds(t_fd *f);
+void		init_count(t_count *p, int argc);
+void		parent_step(t_fd *f);
+int			wait_for_children(pid_t last_pid);
+void		error_cmd(char **cmd);
+void		close_fd(int fd1, int fd2, int fd3, int fd4);
+void		make_dup2(int fd_in, int fd_out, int fd3, int fd4);
 #endif

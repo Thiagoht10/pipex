@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:27:48 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/16 00:52:19 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:25:39 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	skip_token_chars(char *str, int i)
 	}
 	return (i);
 }
+
 static void	update_index(char *str, int start, int *end, int *len)
 {
 	int	end_inclusive;
@@ -120,4 +121,3 @@ void	count_len_word(int number_word, char *str, int *index, int **len)
 		j++;
 	}
 }
-

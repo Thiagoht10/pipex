@@ -33,13 +33,12 @@ typedef struct s_count
 
 typedef struct s_file
 {
-	int	file_in;
-	int	file_out;
-	pid_t last_pid;
-}		t_file;
+	int		file_in;
+	int		file_out;
+	pid_t	last_pid;
+}			t_file;
 
-
-int	skip_quotes(char *str, char c, int index);
+int			skip_quotes(char *str, char c, int index);
 int			count_words(char *str);
 void		find_index(int number_word, char *str, int **index);
 int			skip_token_chars(char *str, int i);
@@ -57,13 +56,13 @@ void		safe_pipe(int fd[2]);
 pid_t		safe_fork(void);
 void		die(const char *ctx, int ext);
 void		run_pipe(char **argv, char **envp);
-void	process_child1(char *argv_cmd, char **envp, int fl_in, int *fd);
-void	process_child2(char *argv_cmd, char **envp, int fl_out, int *fd);
+void		process_child1(char *argv_cmd, char **envp, int fl_in, int *fd);
+void		process_child2(char *argv_cmd, char **envp, int fl_out, int *fd);
 int			ft_isdir(char *path);
 void		error_path(char **cmd);
-int wait_for_children(pid_t last_pid);
-void	error_cmd(char **cmd);
-void	close_fd(int fd1, int fd2, int fd3, int fd4);
-void    make_dup2(int fd_in, int fd_out, int fd3, int fd4);
-void	aux_error_path(char **cmd);
+int			wait_for_children(pid_t last_pid);
+void		error_cmd(char **cmd);
+void		close_fd(int fd1, int fd2, int fd3, int fd4);
+void		make_dup2(int fd_in, int fd_out, int fd3, int fd4);
+void		aux_error_path(char **cmd);
 #endif

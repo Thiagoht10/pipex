@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/18 04:41:04 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:32:45 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,36 +89,38 @@ void	process_child2(char *argv_cmd, char **envp, int fl_out, int *fd)
 	exit(127);
 }
 
-int wait_for_children(pid_t last_pid)
+int	wait_for_children(pid_t last_pid)
 {
-    int status;
-    int exit_code;
-    pid_t wpid;
+	int		status;
+	int		exit_code;
+	pid_t	wpid;
 
 	exit_code = 0;
-    while ((wpid = waitpid(-1, &status, 0)) > 0)
-    {
-        if (wpid == last_pid)
-        {
-            if (WIFEXITED(status))
-                exit_code = WEXITSTATUS(status);
-            else if (WIFSIGNALED(status))
-                exit_code = 128 + WTERMSIG(status);
-        }
-    }
-    return exit_code;
+	wpid = 1;
+	while (wpid > 0)
+	{
+		wpid = waitpid(-1, &status, 0);
+		if (wpid == last_pid)
+		{
+			if (WIFEXITED(status))
+				exit_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				exit_code = 128 + WTERMSIG(status);
+		}
+	}
+	return (exit_code);
 }
 
-void    make_dup2(int fd_in, int fd_out, int fd3, int fd4)
+void	make_dup2(int fd_in, int fd_out, int fd3, int fd4)
 {
-    if (dup2(fd_in, STDIN_FILENO) < 0)
+	if (dup2(fd_in, STDIN_FILENO) < 0)
 	{
-        close_fd(fd_in, fd_out, fd3, fd4);
-        die("pipe_in", 1);
-    }
+		close_fd(fd_in, fd_out, fd3, fd4);
+		die("pipe_in", 1);
+	}
 	if (dup2(fd_out, STDOUT_FILENO) < 0)
 	{
-        close_fd(fd_in, fd_out, fd3, fd4);
-        die("pipe_out", 1);
-    }
+		close_fd(fd_in, fd_out, fd3, fd4);
+		die("pipe_out", 1);
+	}
 }
