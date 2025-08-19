@@ -6,7 +6,7 @@
 #    By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/15 18:08:12 by thde-sou          #+#    #+#              #
-#    Updated: 2025/08/16 06:09:36 by thde-sou         ###   ########.fr        #
+#    Updated: 2025/08/19 19:46:22 by thde-sou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ MARKER = .bonus_created
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRC_COMMON = found_path.c ft_split_aux.c ft_split_modified.c error.c error_two.c
+SRC_COMMON = found_path.c ft_split_aux.c ft_split_modified.c error.c error_two.c \
+error_three.c
 
 SRC = pipex.c pipe.c $(SRC_COMMON)
 

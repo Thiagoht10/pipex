@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/18 20:40:46 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/19 22:22:54 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,18 @@ void	run_pipe(char **argv, char **envp)
 	pid_t	pid2;
 	t_file	fl;
 
+	check_open(argv);
 	fl.file_in = safe_open_read(argv[1]);
 	safe_pipe(fd);
 	pid1 = safe_fork();
 	if (pid1 == 0)
 		process_child1(argv[2], envp, fl.file_in, fd);
-	close(fl.file_in);
-	fl.file_out = safe_open_write(argv[4]);
-	write(2, "aqui\n", 5);
+	close_fd(fl.file_in, -1, -1, -1);
+	fl.file_out = safe_open_write_child(argv[4], fd[0], fd[1]);
 	pid2 = safe_fork();
 	if (pid2 == 0)
 		process_child2(argv[3], envp, fl.file_out, fd);
 	fl.last_pid = pid2;
-	close(fl.file_in);
 	close(fl.file_out);
 	close(fd[0]);
 	close(fd[1]);
@@ -55,6 +54,7 @@ void	process_child1(char *argv_cmd, char **envp, int fl_in, int *fd)
 		close_fd(fl_in, fd[1], fd[0], -1);
 		error_path(cmd);
 	}
+	free_before_dup(cmd, path, fl_in);
 	make_dup2(fl_in, fd[1], fd[0], -1);
 	close_fd(fd[0], fd[1], fl_in, -1);
 	execve(path, cmd, envp);
@@ -81,6 +81,7 @@ void	process_child2(char *argv_cmd, char **envp, int fl_out, int *fd)
 		close_fd(fl_out, fd[1], fd[0], -1);
 		error_path(cmd);
 	}
+	free_before_dup(cmd, path, fl_out);
 	make_dup2(fd[0], fl_out, fd[1], -1);
 	close_fd(fd[0], fd[1], fl_out, -1);
 	execve(path, cmd, envp);
@@ -117,7 +118,7 @@ void	make_dup2(int fd_in, int fd_out, int fd3, int fd4)
 	if (dup2(fd_in, STDIN_FILENO) < 0)
 	{
 		close_fd(fd_in, fd_out, fd3, fd4);
-		die("pipe_in", 1);
+		exit(127);
 	}
 	if (dup2(fd_out, STDOUT_FILENO) < 0)
 	{

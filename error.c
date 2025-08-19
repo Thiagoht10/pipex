@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 18:55:11 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/17 00:51:57 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/19 22:22:28 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ int	safe_open_read(const char *path)
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-	{
 		perror(path);
-		exit(EXIT_FAILURE);
-	}
 	return (fd);
 }
 
