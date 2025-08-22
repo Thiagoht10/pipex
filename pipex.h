@@ -65,7 +65,7 @@ void		error_cmd(char **cmd);
 void		close_fd(int fd1, int fd2, int fd3, int fd4);
 void		make_dup2(int fd_in, int fd_out, int fd3, int fd4);
 void		aux_error_path(char **cmd);
-void	free_before_dup(char **cmd, char *path, int fd);
-int	safe_open_write_child(const char *path, int fd1, int fd2);
-void    check_open(char **argv);
+void		free_before_dup(char **cmd, char *path, int fd);
+int			safe_open_write_child(const char *path, int fd1, int fd2);
+void		check_open(char **argv);
 #endif

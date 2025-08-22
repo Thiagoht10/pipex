@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/19 22:22:54 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:43:35 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	run_pipe(char **argv, char **envp)
 	t_file	fl;
 
 	check_open(argv);
-	fl.file_in = safe_open_read(argv[1]);
+	fl.file_in = open(argv[1], O_RDONLY);
 	safe_pipe(fd);
 	pid1 = safe_fork();
 	if (pid1 == 0)
@@ -123,6 +123,6 @@ void	make_dup2(int fd_in, int fd_out, int fd3, int fd4)
 	if (dup2(fd_out, STDOUT_FILENO) < 0)
 	{
 		close_fd(fd_in, fd_out, fd3, fd4);
-		die("pipe_out", 1);
+		exit(127);
 	}
 }
