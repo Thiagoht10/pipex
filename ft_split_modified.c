@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:53:58 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/24 04:33:19 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/24 05:05:58 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	**ft_split_modified(char *str)
 		return (free(index), NULL);
 	count_len_word(number_word, str, index, &len_word);
 	if (!len_word)
-		return (free(len_word), NULL);
+		return (free(len_word), free(index), NULL);
 	arr = make_split(index, len_word, str, number_word);
 	if (!arr || !*arr)
 	{
