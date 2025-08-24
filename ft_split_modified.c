@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:53:58 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/18 15:25:56 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/24 04:33:19 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	free_all_arr(char **arr)
 			free(arr[a]);
 		a++;
 	}
-	free(arr);
+	if (arr)
+		free(arr);
 }
 
 int	count_words(char *str)

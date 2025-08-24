@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 22:53:25 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/18 20:51:43 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/24 04:46:15 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	error_cmd(char **cmd)
 	if (!cmd || !cmd[0] || cmd[0][0] == '\0')
 	{
 		write(2, ": command not found\n", 20);
+		free_all_arr(cmd);
 		exit(127);
 	}
 }

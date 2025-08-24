@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 17:45:34 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/18 04:52:15 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/24 04:28:29 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*get_path_executable(char *cmd, char **envp)
 		return (NULL);
 	dirs = ft_split(exec.s, ':');
 	if (!dirs || !*dirs)
-		return (NULL);
+		return (free_all_arr(dirs), NULL);
 	while (dirs[exec.i])
 	{
 		result = join3(dirs[exec.i], "/", cmd);
