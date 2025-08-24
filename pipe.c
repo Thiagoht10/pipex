@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/22 17:43:35 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/23 21:50:25 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,30 @@
 
 void	run_pipe(char **argv, char **envp)
 {
-	int		fd[2];
-	pid_t	pid1;
-	pid_t	pid2;
 	t_file	fl;
 
-	check_open(argv);
-	fl.file_in = open(argv[1], O_RDONLY);
-	safe_pipe(fd);
-	pid1 = safe_fork();
-	if (pid1 == 0)
-		process_child1(argv[2], envp, fl.file_in, fd);
+	inits_and_open_in(&fl, argv[1]);
+	safe_pipe(fl.fd);
+	if (fl.file_in >= 0)
+	{
+		fl.pid1 = safe_fork();
+		if (fl.pid1 == 0 && fl.file_in >= 0)
+			process_child1(argv[2], envp, fl.file_in, fl.fd);
+	}
+	else
+		close(fl.fd[1]);
 	close_fd(fl.file_in, -1, -1, -1);
-	fl.file_out = safe_open_write_child(argv[4], fd[0], fd[1]);
-	pid2 = safe_fork();
-	if (pid2 == 0)
-		process_child2(argv[3], envp, fl.file_out, fd);
-	fl.last_pid = pid2;
-	close(fl.file_out);
-	close(fd[0]);
-	close(fd[1]);
+	fl.file_out = check_open_write(argv[4]);
+	if (fl.file_out >= 0)
+	{
+		fl.pid2 = safe_fork();
+		if (fl.pid2 == 0 && fl.file_out >= 0)
+			process_child2(argv[3], envp, fl.file_out, fl.fd);
+	}
+	else
+		close(fl.fd[0]);
+	fl.last_pid = fl.pid2;
+	close_fd(fl.file_out, fl.fd[0], fl.fd[1], -1);
 	exit(wait_for_children(fl.last_pid));
 }
 

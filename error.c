@@ -6,29 +6,20 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 18:55:11 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/19 22:22:28 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/24 03:10:26 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	safe_open_read(const char *path)
-{
-	int	fd;
-
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		perror(path);
-	return (fd);
-}
-
-int	safe_open_write(const char *path)
+int	safe_open_write_child(const char *path, int fd1, int fd2)
 {
 	int	fd;
 
 	fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
+		close_fd(fd1, fd2, -1, -1);
 		perror(path);
 		exit(1);
 	}

@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:28:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/18 20:52:05 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/24 03:12:01 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ char		**ft_split_modified(char *str);
 char		*found_path(char **envp);
 char		*get_path_executable(char *cmd, char **envp);
 char		*resolve_path_exec(char *cmd, char **envp);
-int			safe_open_read(const char *path);
-int			safe_open_write(const char *path);
 void		safe_pipe(int fd[2]);
 pid_t		safe_fork(void);
 void		die(const char *ctx, int ext);
@@ -62,8 +60,6 @@ void		process_child_end(int argc, char **argv, char **envp, int *fd);
 void		process_child_middle(char *arg, char **envp, int *temp_fd, int *fd);
 int			ft_isdir(char *path);
 void		error_path(char **cmd);
-int			calc_len_and_adjust(char *str, int *index_j, int start,
-				int end_exclusive);
 void		init_fds(t_fd *f);
 void		init_count(t_count *p, int argc);
 void		parent_step(t_fd *f);
@@ -72,4 +68,5 @@ void		error_cmd(char **cmd);
 void		close_fd(int fd1, int fd2, int fd3, int fd4);
 void		make_dup2(int fd_in, int fd_out, int fd3, int fd4);
 int			safe_open_read_child(const char *path, int fd1, int fd2);
+int			safe_open_write_child(const char *path, int fd1, int fd2);
 #endif

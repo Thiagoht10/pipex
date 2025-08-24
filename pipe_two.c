@@ -1,42 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_three.c                                      :+:      :+:    :+:   */
+/*   pipe_two.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/19 19:44:38 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/23 21:27:09 by thde-sou         ###   ########.fr       */
+/*   Created: 2025/08/23 21:44:00 by thde-sou          #+#    #+#             */
+/*   Updated: 2025/08/24 03:17:07 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	free_before_dup(char **cmd, char *path, int fd)
+void	inits_and_open_in(t_file *f, char *path)
 {
-	if (fd == -1)
-	{
-		free_all_arr(cmd);
-		free(path);
-	}
-}
-
-int	check_open_write(const char *path)
-{
-	int	fd;
-
-	fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-		perror(path);
-	return (fd);
-}
-
-int	check_open_read(const char *path)
-{
-	int	fd;
-
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		perror(path);
-	return (fd);
+	f->pid1 = -1;
+	f->pid2 = -1;
+	f->file_in = check_open_read(path);
 }

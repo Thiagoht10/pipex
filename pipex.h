@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 14:28:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/19 22:09:36 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/24 03:12:16 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ typedef struct s_file
 	int		file_in;
 	int		file_out;
 	pid_t	last_pid;
+	int		fd[2];
+	pid_t	pid1;
+	pid_t	pid2;
 }			t_file;
 
 int			skip_quotes(char *str, char c, int index);
@@ -50,8 +53,6 @@ char		**ft_split_modified(char *str);
 char		*found_path(char **envp);
 char		*get_path_executable(char *cmd, char **envp);
 char		*resolve_path_exec(char *cmd, char **envp);
-int			safe_open_read(const char *path);
-int			safe_open_write(const char *path);
 void		safe_pipe(int fd[2]);
 pid_t		safe_fork(void);
 void		die(const char *ctx, int ext);
@@ -66,6 +67,7 @@ void		close_fd(int fd1, int fd2, int fd3, int fd4);
 void		make_dup2(int fd_in, int fd_out, int fd3, int fd4);
 void		aux_error_path(char **cmd);
 void		free_before_dup(char **cmd, char *path, int fd);
-int			safe_open_write_child(const char *path, int fd1, int fd2);
-void		check_open(char **argv);
+int			check_open_write(const char *path);
+int			check_open_read(const char *path);
+void		inits_and_open_in(t_file *f, char *path);
 #endif
