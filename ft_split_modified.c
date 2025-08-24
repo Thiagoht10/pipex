@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:53:58 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/24 05:05:58 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/24 15:38:37 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ void	free_all_arr(char **arr)
 	int	a;
 
 	a = 0;
+	if (!arr)
+		return ;
 	while (arr[a])
 	{
-		if (arr[a])
-			free(arr[a]);
+		free(arr[a]);
 		a++;
 	}
-	if (arr)
-		free(arr);
+	free(arr);
 }
 
 int	count_words(char *str)

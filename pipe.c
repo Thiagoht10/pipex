@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 17:48:15 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/23 21:50:25 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/24 15:45:23 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int	wait_for_children(pid_t last_pid)
 
 	exit_code = 0;
 	wpid = 1;
+	status = 0;
 	while (wpid > 0)
 	{
 		wpid = waitpid(-1, &status, 0);
