@@ -6,7 +6,7 @@
 #    By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/15 18:08:12 by thde-sou          #+#    #+#              #
-#    Updated: 2025/08/23 21:51:52 by thde-sou         ###   ########.fr        #
+#    Updated: 2025/08/25 18:04:28 by thde-sou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,13 +17,11 @@ NAME = pipex.a
 
 EXEC = pipex
 
-MARKER = .bonus_created
-
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 SRC_COMMON = found_path.c ft_split_aux.c ft_split_modified.c error.c error_two.c \
-error_three.c 
+error_three.c
 
 SRC = pipex.c pipe.c pipe_two.c $(SRC_COMMON)
 
@@ -42,13 +40,12 @@ $(NAME): $(OBJ) $(LIBFT)
 	ar rcsT $(NAME) $(OBJ) $(LIBFT)
 	$(CC) $(NAME) -o $(EXEC)
 
-bonus: $(MARKER) $(LIBFT)
+bonus: $(EXEC)
 
-$(MARKER): $(OBJ_BONUS) $(LIBFT)
+$(EXEC): $(OBJ_BONUS) $(LIBFT)
 	rm -rf $(NAME)
 	ar rcsT $(NAME) $(OBJ_BONUS) $(LIBFT)
 	$(CC) $(NAME) -o $(EXEC)
-	touch $(MARKER)
 
 %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
@@ -58,9 +55,9 @@ clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
-	rm -f $(NAME) $(EXEC) $(MARKER)
+	rm -f $(NAME) $(EXEC)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re leak
+.PHONY: all bonus clean fclean re
