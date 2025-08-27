@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 17:45:34 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/08/24 04:28:29 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/08/27 18:32:50 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*get_path_executable(char *cmd, char **envp)
 		result = join3(dirs[exec.i], "/", cmd);
 		if (!result)
 			return (free_all_arr(dirs), NULL);
-		if (access(result, X_OK) == 0)
+		if (access(result, F_OK) == 0)
 			return (free_all_arr(dirs), result);
 		exec.i++;
 		free(result);
@@ -79,7 +79,7 @@ char	*resolve_path_exec(char *cmd, char **envp)
 	{
 		if (ft_isdir(cmd))
 			return (NULL);
-		if (access(cmd, X_OK) == 0)
+		if (access(cmd, F_OK) == 0)
 			return (ft_strdup(cmd));
 		return (NULL);
 	}
